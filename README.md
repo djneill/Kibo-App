@@ -4,15 +4,15 @@ A shopping cart web application built as a take-home assignment for Kibo. Fetche
 
 ## Tech stack
 
-| Tool | Version |
-|---|---|
-| Next.js | 16.2.1 |
-| React | 19.2.4 |
-| TypeScript | ^5 |
-| Tailwind CSS | ^4 |
-| Jest | ^30.3.0 |
+| Tool                  | Version |
+| --------------------- | ------- |
+| Next.js               | 16.2.1  |
+| React                 | 19.2.4  |
+| TypeScript            | ^5      |
+| Tailwind CSS          | ^4      |
+| Jest                  | ^30.3.0 |
 | React Testing Library | ^16.3.2 |
-| ts-jest | ^29.4.6 |
+| ts-jest               | ^29.4.6 |
 
 State is managed with React Context + `useReducer`. No external state library is used.
 
@@ -97,6 +97,6 @@ npm run test:watch
 
 ## Live deployment
 
-[https://your-deployment-url.vercel.app](https://your-deployment-url.vercel.app)
+[https://kibo-app-xi.vercel.app/](https://kibo-app-xi.vercel.app/)
 
-> Replace the URL above with your Vercel deployment link after running `vercel --prod` or connecting the repo to a Vercel project.
+# Kibo-App
