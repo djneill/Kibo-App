@@ -15,12 +15,14 @@ afterEach(() => {
 });
 
 describe("useProducts", () => {
-  it("starts in a loading state", () => {
+  it("starts in a loading state", async () => {
     mockFetch(mockProducts);
     const { result } = renderHook(() => useProducts());
     expect(result.current.loading).toBe(true);
     expect(result.current.products).toEqual([]);
     expect(result.current.error).toBeNull();
+    // Flush pending state updates so the fetch resolves inside act()
+    await waitFor(() => expect(result.current.loading).toBe(false));
   });
 
   it("returns products on successful fetch", async () => {

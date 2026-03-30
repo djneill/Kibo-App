@@ -1,5 +1,3 @@
-@AGENTS.md
-
 # CLAUDE.md — Kibo Shopping Cart Assignment
 
 ## Project Overview
@@ -156,6 +154,40 @@ type CartAction =
 - Mobile-first responsive design: start with mobile, add `md:` and `lg:` breakpoints
 - Product grid: 1 col mobile → 2 col tablet → 3 or 4 col desktop
 - No custom CSS files unless absolutely necessary
+
+### Design Tokens — Ocean Blue Palette
+
+The app uses a deep ocean blue color palette designed by Gemini. These are the canonical
+color values — do not deviate from them or introduce other colors.
+
+**Tailwind custom color names and their primary DEFAULT values:**
+
+```
+deep_twilight:    #03045e   (near-black navy — page backgrounds, dark text)
+french_blue:      #023e8a   (dark blue — secondary backgrounds, nav)
+bright_teal_blue: #0077b6   (mid blue — section accents)
+blue_green:       #0096c7   (blue-green — borders, dividers)
+turquoise_surf:   #00b4d8   (primary brand color — primary buttons, links, highlights)
+sky_aqua:         #48cae4   (light accent — hover states, badges)
+frosted_blue:     #90e0ef   (soft blue — card backgrounds, subtle fills)
+light_cyan:       #caf0f8   (near-white — page background, input fills)
+```
+
+**Usage rules:**
+
+- Primary CTA buttons (`variant="primary"`): `bg-turquoise_surf` text white
+- Navbar background: `bg-french_blue` or `bg-deep_twilight`
+- Page background: `bg-light_cyan` or white
+- Headings: `text-deep_twilight` on light backgrounds, white on dark
+- Price text: `text-turquoise_surf` (bold)
+- Hover states: shift one step lighter in the same ramp (e.g. `hover:bg-sky_aqua`)
+- Badges / item count: `bg-turquoise_surf text-white`
+- Card borders: `border-blue_green`
+- Do NOT introduce grays, reds, greens, or any color outside this palette
+- Do NOT use raw hex values in components — use the Tailwind color name tokens above
+
+**Font:** Fredoka (already configured as `font-fredoka` utility class via `@theme` in
+`globals.css`). Use for all headings and button text. System sans-serif for body copy.
 
 ### Error & Loading States
 

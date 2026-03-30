@@ -1,4 +1,5 @@
 import Button from "@/components/ui/Button";
+import styles from "@/app/cart/Cart.module.css";
 
 interface EmptyStateCTA {
   label: string;
@@ -12,11 +13,11 @@ interface EmptyStateProps {
 }
 
 const EmptyState = ({ icon, message, cta }: EmptyStateProps) => (
-  <div className="flex flex-col items-center justify-center gap-4 py-16 text-center text-gray-500">
-    <span className="text-5xl">{icon}</span>
-    <p className="text-lg font-medium">{message}</p>
+  <div className={styles.emptyState}>
+    <span className={styles.emptyIcon}>{icon}</span>
+    <p className={styles.emptyTitle}>{message}</p>
     {cta && (
-      <Button variant="primary" size="md" onClick={cta.onClick}>
+      <Button variant="primary" size="lg" onClick={cta.onClick}>
         {cta.label}
       </Button>
     )}

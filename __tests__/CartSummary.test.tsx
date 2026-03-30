@@ -17,20 +17,20 @@ const renderSummary = (props = defaultProps) =>
 describe("CartSummary", () => {
   it("displays the correct item count", () => {
     renderSummary();
-    expect(screen.getByText(String(defaultProps.itemCount))).toBeInTheDocument();
+    // Item count is embedded in "Total (3 items)" label
+    expect(screen.getByText(/3 items/i)).toBeInTheDocument();
   });
 
   it("displays the correct total price", () => {
     renderSummary();
     const formatted = `${CURRENCY_SYMBOL}${defaultProps.totalPrice.toFixed(2)}`;
-    // Total appears twice (subtotal row + total row) — assert at least once
-    expect(screen.getAllByText(formatted).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(formatted)).toBeInTheDocument();
   });
 
-  it("calls onClearCart when Clear Cart is clicked", async () => {
+  it("calls onClearCart when Clear button is clicked", async () => {
     const onClearCart = jest.fn();
     renderSummary({ ...defaultProps, onClearCart });
-    await userEvent.click(screen.getByRole("button", { name: /clear cart/i }));
+    await userEvent.click(screen.getByRole("button", { name: /^clear$/i }));
     expect(onClearCart).toHaveBeenCalledTimes(1);
   });
 
@@ -43,25 +43,26 @@ describe("CartSummary", () => {
 
   it("displays $0.00 total when cart is empty", () => {
     renderSummary({ ...defaultProps, itemCount: 0, totalPrice: 0 });
-    expect(screen.getAllByText(`${CURRENCY_SYMBOL}0.00`).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(`${CURRENCY_SYMBOL}0.00`)).toBeInTheDocument();
   });
 
   it("does not call onClearCart more than once per click", async () => {
     const onClearCart = jest.fn();
     renderSummary({ ...defaultProps, onClearCart });
-    await userEvent.click(screen.getByRole("button", { name: /clear cart/i }));
+    await userEvent.click(screen.getByRole("button", { name: /^clear$/i }));
     expect(onClearCart).toHaveBeenCalledTimes(1);
   });
 
-  it("renders correctly with a single item", () => {
+  it("renders correctly with a single item using singular label", () => {
     renderSummary({ ...defaultProps, itemCount: 1, totalPrice: 109.95 });
-    expect(screen.getByText("1")).toBeInTheDocument();
-    expect(screen.getAllByText(`${CURRENCY_SYMBOL}109.95`).length).toBeGreaterThanOrEqual(1);
+    // Singular: "Total (1 item)" — no "s"
+    expect(screen.getByText(/1 item\b/i)).toBeInTheDocument();
+    expect(screen.getByText(`${CURRENCY_SYMBOL}109.95`)).toBeInTheDocument();
   });
 
   it("displays a price that does not suffer from float precision errors", () => {
     // 3 × $0.10 = $0.30 — naive JS gives 0.30000000000000004
     renderSummary({ ...defaultProps, itemCount: 3, totalPrice: 3 * 0.1 });
-    expect(screen.getAllByText(`${CURRENCY_SYMBOL}0.30`).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(`${CURRENCY_SYMBOL}0.30`)).toBeInTheDocument();
   });
 });

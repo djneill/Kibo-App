@@ -6,6 +6,8 @@ import CartItem from "@/components/cart/CartItem";
 import CartSummary from "@/components/cart/CartSummary";
 import EmptyState from "@/components/ui/EmptyState";
 import { ROUTES } from "@/data/constants";
+import styles from "./Cart.module.css";
+import { PiShoppingCartBold } from "react-icons/pi";
 
 const CartPage = () => {
   const { state, dispatch, totalItems, totalPrice } = useCart();
@@ -14,10 +16,10 @@ const CartPage = () => {
   if (state.items.length === 0) {
     return (
       <EmptyState
-        icon="🛒"
-        message="Your cart is empty."
+        icon={<PiShoppingCartBold size={80} color="#00b4d8" />}
+        message="Your cart is feeling empty!"
         cta={{
-          label: "Browse Products",
+          label: "Keep Shopping",
           onClick: () => router.push(ROUTES.HOME),
         }}
       />
@@ -25,10 +27,10 @@ const CartPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-      <div className="flex-1">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Cart</h1>
-        <div className="rounded-lg border border-gray-200 bg-white px-6">
+    <div className={styles.container}>
+      <div style={{ flex: 1 }}>
+        <h1 className={styles.title}>Your Cart</h1>
+        <div>
           {state.items.map((item) => (
             <CartItem
               key={item.product.id}
@@ -42,14 +44,12 @@ const CartPage = () => {
         </div>
       </div>
 
-      <div className="w-full lg:w-80 lg:sticky lg:top-24">
-        <CartSummary
-          itemCount={totalItems}
-          totalPrice={totalPrice}
-          onClearCart={() => dispatch({ type: "CLEAR_CART" })}
-          onCheckout={() => alert("Checkout coming soon!")}
-        />
-      </div>
+      <CartSummary
+        itemCount={totalItems}
+        totalPrice={totalPrice}
+        onClearCart={() => dispatch({ type: "CLEAR_CART" })}
+        onCheckout={() => alert("Checkout coming soon!")}
+      />
     </div>
   );
 };

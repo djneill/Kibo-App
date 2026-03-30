@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Product } from "@/types";
 import { CURRENCY_SYMBOL } from "@/data/constants";
 import Button from "@/components/ui/Button";
+import styles from "./ProductListing.module.css";
+import { PiStarFill } from "react-icons/pi";
 
 interface ProductCardProps {
   product: Product;
@@ -14,36 +16,38 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const { title, price, image, rating, category } = product;
 
   return (
-    <div className="flex flex-col rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow bg-white">
-      <div className="relative h-56 w-full bg-gray-50 p-4">
+    <div className={styles.card}>
+      <div className={styles.imageWrapper}>
         <Image
           src={image}
           alt={title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-contain p-4"
+          className={styles.image}
         />
       </div>
 
-      <div className="flex flex-col flex-1 gap-2 p-4">
-        <span className="text-xs text-gray-400 uppercase tracking-wide">{category}</span>
-        <h2 className="text-sm font-medium text-gray-800 line-clamp-2 flex-1">{title}</h2>
+      <div className={styles.content}>
+        <span className={styles.category}>{category}</span>
+        <h2 className={styles.title} title={title}>{title}</h2>
 
-        <div className="flex items-center gap-1 text-xs text-gray-500">
-          <span className="text-yellow-400">★</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '13px', color: '#6b7280', fontWeight: 'bold' }}>
+          <PiStarFill color="#fbbf24" size={16} />
           <span>{rating.rate}</span>
-          <span>({rating.count})</span>
+          <span style={{ color: '#9ca3af' }}>({rating.count})</span>
         </div>
 
-        <p className="text-lg font-bold text-gray-900">
-          {CURRENCY_SYMBOL}{price.toFixed(2)}
-        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 'auto' }}>
+          <p className={styles.price}>
+            {CURRENCY_SYMBOL}{price.toFixed(2)}
+          </p>
+        </div>
 
         <Button
           variant="primary"
           size="sm"
           onClick={() => onAddToCart(product)}
-          className="w-full mt-1"
+          style={{ width: '100%', marginTop: '8px' }}
         >
           Add to Cart
         </Button>

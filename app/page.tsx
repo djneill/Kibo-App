@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Products</h1>
+      <h1 className="font-fredoka text-4xl font-bold text-center text-[#00b4d8] py-8 tracking-wide drop-shadow-sm">Products</h1>
       <ProductGrid
         products={products}
         loading={loading}

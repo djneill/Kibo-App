@@ -5,6 +5,7 @@ const config: Config = {
   testEnvironment: "jest-environment-jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   moduleNameMapper: {
+    "\\.module\\.css$": "identity-obj-proxy",
     "^@/(.*)$": "<rootDir>/$1",
   },
   transform: {

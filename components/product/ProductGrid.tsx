@@ -1,6 +1,7 @@
 import { Product } from "@/types";
 import ProductCard from "@/components/product/ProductCard";
 import SkeletonCard from "@/components/ui/SkeletonCard";
+import styles from "./ProductListing.module.css";
 
 const SKELETON_COUNT = 8;
 
@@ -11,7 +12,7 @@ interface ProductGridProps {
 }
 
 const ProductGrid = ({ products, loading, onAddToCart }: ProductGridProps) => (
-  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  <div className={styles.grid}>
     {loading
       ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (
           <SkeletonCard key={i} />
