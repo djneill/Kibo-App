@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kibo Shop
 
-## Getting Started
+A shopping cart web application built as a take-home assignment for Kibo. Fetches products from the [FakeStore API](https://fakestoreapi.com), lets users add items to a cart, adjust quantities, and view an order summary.
 
-First, run the development server:
+## Tech stack
+
+| Tool | Version |
+|---|---|
+| Next.js | 16.2.1 |
+| React | 19.2.4 |
+| TypeScript | ^5 |
+| Tailwind CSS | ^4 |
+| Jest | ^30.3.0 |
+| React Testing Library | ^16.3.2 |
+| ts-jest | ^29.4.6 |
+
+State is managed with React Context + `useReducer`. No external state library is used.
+
+## Setup
+
+```bash
+npm install
+```
+
+## Running the app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To build and run for production:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Running tests
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm test
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run in watch mode during development:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run test:watch
+```
 
-## Deploy on Vercel
+## Folder structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+/app
+  /page.tsx              # Product listing page (home)
+  /cart/page.tsx         # Cart page
+  /layout.tsx            # Root layout — wraps app in CartProvider and Navbar
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+/components
+  /ui                    # Reusable, stateless UI primitives
+    Button.tsx           # Variants: primary | secondary | danger. Sizes: sm | md | lg
+    Badge.tsx            # Item count badge — hidden when count is 0
+    Spinner.tsx          # Accessible loading spinner
+    SkeletonCard.tsx     # Product card skeleton for loading state
+    EmptyState.tsx       # Empty state with icon, message, and optional CTA
+  /product
+    ProductCard.tsx      # Single product card
+    ProductGrid.tsx      # Responsive grid — shows skeletons while loading
+  /cart
+    CartItem.tsx         # Single cart row with quantity controls and remove button
+    CartSummary.tsx      # Order summary with subtotal, clear, and checkout
+    CartDrawer.tsx       # (reserved) Slide-in cart sidebar
+  /layout
+    Navbar.tsx           # App header with live cart item count Badge
+
+/context
+  CartContext.tsx        # CartContext, CartProvider, and useCart hook
+
+/hooks
+  useProducts.ts         # Fetches all products — returns { products, loading, error }
+
+/data
+  constants.ts           # API base URL, currency symbol, max quantity, route paths
+  mockProducts.ts        # Typed mock products for use in tests
+
+/types
+  index.ts               # Shared TypeScript interfaces: Product, CartItem, CartState, CartAction
+
+/__tests__
+  CartContext.test.tsx   # Cart reducer and context behaviour
+  ProductCard.test.tsx   # ProductCard rendering and interaction
+  CartSummary.test.tsx   # Order summary display and callbacks
+  Button.test.tsx        # Button variants, states, and accessibility
+  useProducts.test.ts    # Hook loading, success, and error states
+```
+
+## Live deployment
+
+[https://your-deployment-url.vercel.app](https://your-deployment-url.vercel.app)
+
+> Replace the URL above with your Vercel deployment link after running `vercel --prod` or connecting the repo to a Vercel project.
