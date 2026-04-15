@@ -1,16 +1,11 @@
 "use client";
 
-import { useState, FormEvent } from "react";
-import {
-  CURRENCY_SYMBOL,
-  COUPON_DISCOUNT_AMOUNT,
-  COUPON_MIN_QUANTITY,
-  ITEM_DISCOUNT_AMOUNT,
-  VALID_COUPONS,
-} from "@/data/constants";
+import { useState } from "react";
+import { CURRENCY_SYMBOL, VALID_COUPONS } from "@/data/constants";
 import { CartItem } from "@/types";
 import Button from "@/components/ui/Button";
 import styles from "@/app/cart/Cart.module.css";
+import useCartDiscount from "@/hooks/useCartDiscount";
 
 interface CartSummaryProps {
   items: CartItem[];
@@ -31,16 +26,10 @@ const CartSummary = ({
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [couponError, setCouponError] = useState<string | null>(null);
 
-  const qualifyingItems = items.filter(
-    (item) => item.quantity >= COUPON_MIN_QUANTITY
-  );
-  const autoDiscount = qualifyingItems.length * ITEM_DISCOUNT_AMOUNT;
+  const { qualifyingItems, itemDiscountAmount, couponDiscount, totalDiscount, finalTotal } =
+    useCartDiscount(items, appliedCoupon);
 
-  const couponDiscount = appliedCoupon ? COUPON_DISCOUNT_AMOUNT : 0;
-  const totalDiscount = autoDiscount + couponDiscount;
-  const finalTotal = Math.max(0, totalPrice - totalDiscount);
-
-  const handleCouponSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleCouponSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmed = couponCode.trim().toUpperCase();
 
@@ -81,7 +70,7 @@ const CartSummary = ({
           </span>
           <span className={`${styles.discountValue} text-red-500`}>
             −{CURRENCY_SYMBOL}
-            {ITEM_DISCOUNT_AMOUNT.toFixed(2)}
+            {itemDiscountAmount.toFixed(2)}
           </span>
         </div>
       ))}
@@ -103,7 +92,7 @@ const CartSummary = ({
           <span className={styles.summaryLabel}>Total</span>
           <span className={`${styles.summaryValue} text-green-600`}>
             {CURRENCY_SYMBOL}
-            {finalTotal.toFixed(2)}
+            {finalTotal(totalPrice).toFixed(2)}
           </span>
         </div>
       )}
