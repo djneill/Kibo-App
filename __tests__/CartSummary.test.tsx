@@ -12,7 +12,7 @@ const defaultProps = {
 };
 
 const renderSummary = (props = defaultProps) =>
-  render(<CartSummary {...props} />);
+  render(<CartSummary items={[]} {...props} />);
 
 describe("CartSummary", () => {
   it("displays the correct item count", () => {

@@ -45,6 +45,7 @@ const CartPage = () => {
       </div>
 
       <CartSummary
+        items={state.items}
         itemCount={totalItems}
         totalPrice={totalPrice}
         onClearCart={() => dispatch({ type: "CLEAR_CART" })}
